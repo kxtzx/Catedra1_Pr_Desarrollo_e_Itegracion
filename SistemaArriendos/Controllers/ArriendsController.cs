@@ -18,6 +18,16 @@ namespace SistemaArriendos.Controllers
             _context = context;
         }
 
+        private void CargarCombos(int? clienteId = null, int? vehiculoId = null)
+        {
+            ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Nombre", clienteId);
+            ViewData["VehiculoId"] = new SelectList(
+                _context.Vehiculos.Where(v => v.Estado == "Disponible"),
+                "Id",
+                "Patente",
+                vehiculoId);
+        }
+
         // GET: Arriends
         public async Task<IActionResult> Index()
         {
@@ -48,10 +58,7 @@ namespace SistemaArriendos.Controllers
         // GET: Arriends/Create
         public IActionResult Create()
         {
-            ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Nombre");
-    
-            // FILTRO: Solo mandar a la vista los vehículos cuyo estado sea 'Disponible'
-            ViewData["VehiculoId"] = new SelectList(_context.Vehiculos.Where(v => v.Estado == "Disponible"), "Id", "Patente");
+            CargarCombos();
             return View();
         }
 
@@ -63,6 +70,10 @@ namespace SistemaArriendos.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,VehiculoId,ClienteId,FechaInicio,FechaFin,PrecioDiario,PrecioTotal")] Arriendo arriendo)
         {
+            CargarCombos(arriendo.ClienteId, arriendo.VehiculoId);
+            ModelState.Remove(nameof(Arriendo.Cliente));
+            ModelState.Remove(nameof(Arriendo.Vehiculo));
+
             var vehiculo = await _context.Vehiculos.FindAsync(arriendo.VehiculoId);
 
             if (vehiculo == null)
@@ -74,26 +85,22 @@ namespace SistemaArriendos.Controllers
             if (vehiculo.Estado != "Disponible")
             {
                 ModelState.AddModelError("", $"Operación denegada: El vehículo actualmente se encuentra en estado: '{vehiculo.Estado}'.");
-                ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Nombre", arriendo.ClienteId);
-                ViewData["VehiculoId"] = new SelectList(_context.Vehiculos.Where(v => v.Estado == "Disponible"), "Id", "Patente", arriendo.VehiculoId);
                 return View(arriendo);
             }
 
             if (arriendo.FechaFin.DayNumber < arriendo.FechaInicio.DayNumber)
             {
                 ModelState.AddModelError("", "La fecha de fin no puede ser menor a la fecha de inicio.");
-                ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Nombre", arriendo.ClienteId);
-                ViewData["VehiculoId"] = new SelectList(_context.Vehiculos.Where(v => v.Estado == "Disponible"), "Id", "Patente", arriendo.VehiculoId);
                 return View(arriendo);
             }
 
+            int dias = arriendo.FechaFin.DayNumber - arriendo.FechaInicio.DayNumber;
+            if (dias == 0) dias = 1;
+
+            arriendo.PrecioTotal = dias * arriendo.PrecioDiario;
+
             if (ModelState.IsValid)
             {
-                int dias = arriendo.FechaFin.DayNumber - arriendo.FechaInicio.DayNumber;
-                if (dias == 0) dias = 1;
-
-                arriendo.PrecioTotal = dias * arriendo.PrecioDiario;
-
                 vehiculo.Estado = "Arrendado";
                 _context.Update(vehiculo);
 
@@ -102,8 +109,6 @@ namespace SistemaArriendos.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewData["ClienteId"] = new SelectList(_context.Clientes, "Id", "Nombre", arriendo.ClienteId);
-            ViewData["VehiculoId"] = new SelectList(_context.Vehiculos, "Id", "Patente", arriendo.VehiculoId);
             return View(arriendo);
         }
 
@@ -136,6 +141,9 @@ namespace SistemaArriendos.Controllers
             {
                 return NotFound();
             }
+
+            ModelState.Remove(nameof(Arriendo.Cliente));
+            ModelState.Remove(nameof(Arriendo.Vehiculo));
 
             if (ModelState.IsValid)
             {
