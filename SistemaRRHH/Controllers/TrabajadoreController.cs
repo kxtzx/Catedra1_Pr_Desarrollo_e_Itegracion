@@ -1,13 +1,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Http;
 using SistemaRRHH.Data;
 using SistemaRRHH.Models;
+using SistemaRRHH.ViewModels;
+using System.Text.Json.Serialization;
 
 namespace SistemaRRHH.Controllers
 {
@@ -20,58 +23,66 @@ namespace SistemaRRHH.Controllers
             _context = context;
         }
 
-        // ==========================================
-        // PROCESAMIENTO DE ARCHIVO JSON (SUELDOS)
-        // ==========================================
+        // GET: Trabajadore/ResultadoSueldos
+        public async Task<IActionResult> ResultadoSueldos()
+        {
+            var trabajadores = await _context.Trabajadores.ToListAsync();
+            var resultados = CrearResultadosBase(trabajadores);
+
+            return View(resultados);
+        }
 
         [HttpPost]
-        public async Task<IActionResult> CargarHoras(IFormFile archivo)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CargarJson(IFormFile archivo)
         {
-            // Validar que el usuario haya seleccionado un archivo
+            var trabajadores = await _context.Trabajadores.ToListAsync();
+
             if (archivo == null || archivo.Length == 0)
             {
-                ModelState.AddModelError("", "Por favor, seleccione un archivo JSON válido.");
-                return View("Index", await _context.Trabajadores.ToListAsync());
+                ModelState.AddModelError(string.Empty, "Por favor, seleccione un archivo JSON válido.");
+                return View("ResultadoSueldos", CrearResultadosBase(trabajadores));
             }
 
             try
             {
                 using var stream = archivo.OpenReadStream();
-                var horasList = await System.Text.Json.JsonSerializer.DeserializeAsync<List<HorasDto>>(stream);
-
-                // Lista para almacenar los resultados calculados
-                var resultados = new List<ResultadoSueldoViewModel>();
-
-                if (horasList != null)
+                var horasList = await JsonSerializer.DeserializeAsync<List<HorasDto>>(stream, new JsonSerializerOptions
                 {
-                    foreach (var item in horasList)
-                    {
-                        // Buscamos al trabajador por su RUT
-                        var trabajador = await _context.Trabajadores.FirstOrDefaultAsync(t => t.Rut == item.Rut);
-                        
-                        if (trabajador != null)
-                        {
-                            // Fórmula: Sueldo Base + (Horas Trabajadas * Valor Hora)
-                            decimal sueldoMes = trabajador.SueldoBase + (item.HorasTrabajadas * trabajador.ValorHora);
-                            
-                            // Guardamos la información procesada
-                            resultados.Add(new ResultadoSueldoViewModel
-                            {
-                                Rut = trabajador.Rut,
-                                Nombre = trabajador.Nombre,
-                                SueldoFinal = sueldoMes
-                            });
-                        }
-                    }
-                }
+                    PropertyNameCaseInsensitive = true
+                });
 
-                // Envía los resultados a la vista "ResultadoSueldos.cshtml"
+                var horasPorRut = horasList == null
+                    ? new Dictionary<string, decimal>(StringComparer.OrdinalIgnoreCase)
+                    : horasList
+                        .Where(x => !string.IsNullOrWhiteSpace(x.Rut))
+                        .GroupBy(x => x.Rut.Trim(), StringComparer.OrdinalIgnoreCase)
+                        .ToDictionary(g => g.Key, g => g.Sum(x => x.HorasTrabajadas), StringComparer.OrdinalIgnoreCase);
+
+                var resultados = trabajadores.Select(trabajador =>
+                {
+                    horasPorRut.TryGetValue(trabajador.Rut, out var horasTrabajadas);
+
+                    var sueldoFinal = trabajador.SueldoBase + (horasTrabajadas * trabajador.ValorHora);
+
+                    return new ResultadoSueldoViewModel
+                    {
+                        Rut = trabajador.Rut,
+                        Nombre = trabajador.Nombre,
+                        HorasTrabajadas = horasTrabajadas,
+                        SueldoBase = trabajador.SueldoBase,
+                        ValorHora = trabajador.ValorHora,
+                        SueldoFinal = sueldoFinal
+                    };
+                }).ToList();
+
                 return View("ResultadoSueldos", resultados);
             }
             catch (Exception ex)
             {
-                ModelState.AddModelError("", "Error al procesar el archivo JSON: " + ex.Message);
-                return View("Index", await _context.Trabajadores.ToListAsync());
+                ModelState.AddModelError(string.Empty, "Error al procesar el archivo JSON: " + ex.Message);
+
+                return View("ResultadoSueldos", CrearResultadosBase(trabajadores));
             }
         }
 
@@ -209,24 +220,27 @@ namespace SistemaRRHH.Controllers
         {
             return _context.Trabajadores.Any(e => e.Id == id);
         }
+
+        private static List<ResultadoSueldoViewModel> CrearResultadosBase(IEnumerable<Trabajadore> trabajadores)
+        {
+            return trabajadores.Select(t => new ResultadoSueldoViewModel
+            {
+                Rut = t.Rut,
+                Nombre = t.Nombre,
+                HorasTrabajadas = 0m,
+                SueldoBase = t.SueldoBase,
+                ValorHora = t.ValorHora,
+                SueldoFinal = t.SueldoBase
+            }).ToList();
+        }
     }
 
-    // ==========================================
-    // CLASES AUXILIARES (MODELOS DE TRANSFERENCIA)
-    // ==========================================
-
-    // Mapea la estructura del archivo JSON entrante
     public class HorasDto
     {
+        [JsonPropertyName("rut")]
         public string Rut { get; set; } = string.Empty;
-        public decimal HorasTrabajadas { get; set; }
-    }
 
-    // Mapea los datos finales calculados que se verán en la vista
-    public class ResultadoSueldoViewModel
-    {
-        public string Rut { get; set; } = string.Empty;
-        public string Nombre { get; set; } = string.Empty;
-        public decimal SueldoFinal { get; set; }
+        [JsonPropertyName("horas")]
+        public decimal HorasTrabajadas { get; set; }
     }
 }

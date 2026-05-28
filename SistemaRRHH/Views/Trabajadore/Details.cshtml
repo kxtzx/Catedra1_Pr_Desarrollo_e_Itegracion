@@ -1,42 +1,59 @@
 @model SistemaRRHH.Models.Trabajadore
+@using System.Globalization
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Detalle del Trabajador";
+    var cultura = new CultureInfo("es-CL");
 }
 
-<h1>Details</h1>
+<div class="container-fluid mt-5">
+    <div class="row mb-4">
+        <div class="col-lg-8">
+            <h1 class="display-5 fw-bold mb-2">Detalle del Trabajador</h1>
+            <p class="text-muted fs-5 mb-0">Revisa la información registrada del mecánico seleccionado.</p>
+        </div>
+    </div>
 
-<div>
-    <h4>Trabajadore</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Rut)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Rut)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Nombre)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Nombre)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.SueldoBase)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.SueldoBase)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ValorHora)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ValorHora)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-dark text-white">
+            <strong><i class="bi bi-person-badge-fill me-2"></i>@Model.Nombre</strong>
+        </div>
+        <div class="card-body">
+            <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                    <div class="p-3 bg-light rounded-3 h-100">
+                        <div class="text-muted small mb-1">RUT</div>
+                        <span class="badge bg-dark px-3 py-2">@Model.Rut</span>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="p-3 bg-light rounded-3 h-100">
+                        <div class="text-muted small mb-1">Nombre</div>
+                        <div class="fw-semibold fs-5">@Model.Nombre</div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="p-3 bg-light rounded-3 h-100">
+                        <div class="text-muted small mb-1">Sueldo Base</div>
+                        <div class="fw-semibold fs-5 text-success">@Model.SueldoBase.ToString("C2", cultura)</div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="p-3 bg-light rounded-3 h-100">
+                        <div class="text-muted small mb-1">Valor Hora</div>
+                        <div class="fw-semibold fs-5 text-primary">@Model.ValorHora.ToString("C2", cultura)</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex gap-2 justify-content-end">
+                <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-warning text-dark">
+                    <i class="bi bi-pencil-fill me-2"></i>Editar
+                </a>
+                <a asp-action="Index" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left me-2"></i>Volver al listado
+                </a>
+            </div>
+        </div>
+    </div>
 </div>
