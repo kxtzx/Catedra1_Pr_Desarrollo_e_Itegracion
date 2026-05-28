@@ -1,0 +1,71 @@
+﻿@{
+    ViewData["Title"] = "Sistema de Arriendos";
+}
+
+<div class="container mt-5">
+    <div class="row mb-5">
+        <div class="col-12">
+            <h1 class="display-4 text-center mb-2">Sistema de Arriendos</h1>
+            <p class="text-center text-muted mb-5">Gestión integral de arriendo de vehículos y clientes</p>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <!-- Arriendos -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm border-0 hover-card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Registros de Arriendos</h5>
+                    <p class="card-text text-muted">Gestiona contratos y registro de arriendos de vehículos</p>
+                    <a href="/Arriends" class="btn btn-primary btn-sm w-100">Acceder</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Clientes -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm border-0 hover-card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Clientes</h5>
+                    <p class="card-text text-muted">Administra la información de clientes (nombre, RUT, dirección)</p>
+                    <a href="/Clientes" class="btn btn-primary btn-sm w-100">Acceder</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Información -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm border-0 hover-card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Información</h5>
+                    <p class="card-text text-muted">Detalles del sistema y funcionalidades disponibles</p>
+                    <a href="/Home/Privacy" class="btn btn-primary btn-sm w-100">Acceder</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="alert alert-info">
+                <strong>Nota:</strong> Sistema compartido con Mantenimiento (comparten la misma base de datos)
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .hover-card {
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+    
+    .hover-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+    }
+
+    .display-4 {
+        font-weight: 700;
+        color: #2c3e50;
+    }
+</style>

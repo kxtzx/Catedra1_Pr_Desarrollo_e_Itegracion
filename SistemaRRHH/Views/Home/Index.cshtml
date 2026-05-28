@@ -1,0 +1,74 @@
+﻿@{
+    ViewData["Title"] = "Sistema de RRHH";
+}
+
+<div class="container mt-5">
+    <div class="row mb-5">
+        <div class="col-12">
+            <h1 class="display-4 text-center mb-2">Sistema de Recursos Humanos</h1>
+            <p class="text-center text-muted mb-5">Gestión de trabajadores, sueldos y cálculo de remuneraciones</p>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <!-- Trabajadores -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm border-0 hover-card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Trabajadores/Mecánicos</h5>
+                    <p class="card-text text-muted">Gestiona trabajadores, sueldo base y valor por hora de trabajo</p>
+                    <a href="/Trabajadore" class="btn btn-primary btn-sm w-100">Acceder</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cálculo de Sueldos -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm border-0 hover-card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Cálculo de Sueldos</h5>
+                    <p class="card-text text-muted">Importa archivo de horas y calcula sueldos mensuales (base + variable)</p>
+                    <a href="/Trabajadore/ResultadoSueldos" class="btn btn-primary btn-sm w-100">Acceder</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Información -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm border-0 hover-card">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Información</h5>
+                    <p class="card-text text-muted">Detalles del sistema y funcionalidades disponibles</p>
+                    <a href="/Home/Privacy" class="btn btn-primary btn-sm w-100">Acceder</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="alert alert-warning">
+                <strong>Nota:</strong> Este sistema tiene su propia base de datos. Se comunica con Mantenimiento solo a través de archivo JSON de horas trabajadas.
+            </div>
+            <div class="alert alert-info">
+                <strong>Fórmula de Sueldo:</strong> Sueldo Mensual = Sueldo Base + (Horas Trabajadas × Valor por Hora)
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .hover-card {
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+    
+    .hover-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+    }
+
+    .display-4 {
+        font-weight: 700;
+        color: #2c3e50;
+    }
+</style>

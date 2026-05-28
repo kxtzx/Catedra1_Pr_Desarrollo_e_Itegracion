@@ -1,0 +1,102 @@
+@model SistemaMantencion.Models.Vehiculo
+
+@{
+    ViewData["Title"] = "Crear Vehículo";
+}
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-10 mx-auto">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0"><i class="bi bi-plus-circle"></i> Registrar Nuevo Vehículo</h4>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Create" method="post">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Codigo" class="form-label fw-bold">Código</label>
+                                <input asp-for="Codigo" class="form-control" placeholder="Ej: VH-001" />
+                                <span asp-validation-for="Codigo" class="text-danger small"></span>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Patente" class="form-label fw-bold">Patente</label>
+                                <input asp-for="Patente" class="form-control" placeholder="Ej: ABCD-12" />
+                                <span asp-validation-for="Patente" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Marca" class="form-label fw-bold">Marca</label>
+                                <input asp-for="Marca" class="form-control" placeholder="Ej: Toyota" />
+                                <span asp-validation-for="Marca" class="text-danger small"></span>
+                            </div>
+
+                            <div class="col-md-6 mb-3">
+                                <label asp-for="Modelo" class="form-label fw-bold">Modelo</label>
+                                <input asp-for="Modelo" class="form-control" placeholder="Ej: Corolla" />
+                                <span asp-validation-for="Modelo" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label asp-for="Tipo" class="form-label fw-bold">Tipo</label>
+                                <select asp-for="Tipo" class="form-select">
+                                    <option selected disabled>-- Seleccionar tipo --</option>
+                                    <option>Auto</option>
+                                    <option>Camioneta</option>
+                                    <option>Furgoneta</option>
+                                    <option>Bus</option>
+                                </select>
+                                <span asp-validation-for="Tipo" class="text-danger small"></span>
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <label asp-for="Kilometraje" class="form-label fw-bold">Kilometraje</label>
+                                <input asp-for="Kilometraje" class="form-control" type="number" min="0" placeholder="0" />
+                                <span asp-validation-for="Kilometraje" class="text-danger small"></span>
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <label asp-for="Estado" class="form-label fw-bold">Estado</label>
+                                <select asp-for="Estado" class="form-select">
+                                    <option selected>Disponible</option>
+                                    <option>Arrendado</option>
+                                    <option>Mantenimiento</option>
+                                    <option>No Disponible</option>
+                                </select>
+                                <span asp-validation-for="Estado" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="PrecioArriendoDiario" class="form-label fw-bold">Precio Arriendo Diario ($)</label>
+                            <input asp-for="PrecioArriendoDiario" class="form-control" type="number" step="0.01" min="0" placeholder="0.00" />
+                            <span asp-validation-for="PrecioArriendoDiario" class="text-danger small"></span>
+                        </div>
+
+                        <hr />
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a asp-action="Index" class="btn btn-secondary">
+                                <i class="bi bi-arrow-left"></i> Cancelar
+                            </a>
+                            <button type="submit" class="btn btn-success">
+                                <i class="bi bi-check-circle"></i> Guardar Vehículo
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

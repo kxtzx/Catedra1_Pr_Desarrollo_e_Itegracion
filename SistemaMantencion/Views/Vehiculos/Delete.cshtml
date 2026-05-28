@@ -1,0 +1,86 @@
+@model SistemaMantencion.Models.Vehiculo
+
+@{
+    ViewData["Title"] = "Eliminar Vehículo";
+}
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-10 mx-auto">
+            <div class="card shadow-lg border-danger">
+                <div class="card-header bg-danger text-white">
+                    <h4 class="mb-0"><i class="bi bi-exclamation-triangle"></i> Eliminar Vehículo</h4>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-warning" role="alert">
+                        <i class="bi bi-info-circle"></i>
+                        <strong>Advertencia:</strong> Esta acción no se puede deshacer. ¿Estás seguro de que deseas eliminar este vehículo?
+                    </div>
+
+                    <div class="card card-body bg-light mb-4">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <h6 class="text-muted">Código</h6>
+                                <p class="h5 fw-bold">@Model.Codigo</p>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <h6 class="text-muted">Patente</h6>
+                                <p class="h5 fw-bold">@Model.Patente</p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <h6 class="text-muted">Marca</h6>
+                                <p class="h5">@Model.Marca</p>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <h6 class="text-muted">Modelo</h6>
+                                <p class="h5">@Model.Modelo</p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <h6 class="text-muted">Tipo</h6>
+                                <p class="h5">@Model.Tipo</p>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <h6 class="text-muted">Kilometraje</h6>
+                                <p class="h5">@Model.Kilometraje km</p>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <h6 class="text-muted">Precio Diario</h6>
+                                <p class="h5">$ @Model.PrecioArriendoDiario.ToString("N2")</p>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <h6 class="text-muted">Estado</h6>
+                                @{
+                                    var estadoBadge = Model.Estado == "Disponible" ? "bg-success" :
+                                                     Model.Estado == "Arrendado" ? "bg-warning" :
+                                                     Model.Estado == "Mantenimiento" ? "bg-info" : "bg-secondary";
+                                }
+                                <p><span class="badge @estadoBadge">@Model.Estado</span></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form asp-action="Delete" method="post" class="d-inline">
+                        <input type="hidden" asp-for="Id" />
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a asp-action="Index" class="btn btn-secondary">
+                                <i class="bi bi-arrow-left"></i> Cancelar
+                            </a>
+                            <button type="submit" class="btn btn-danger">
+                                <i class="bi bi-trash"></i> Eliminar Vehículo
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

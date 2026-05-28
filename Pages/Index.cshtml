@@ -1,0 +1,104 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Sistema de Gestión";
+}
+
+<div class="container mt-5">
+    <div class="row mb-5">
+        <div class="col-12">
+            <h1 class="display-4 text-center mb-2">📊 Sistema de Gestión</h1>
+            <p class="text-center text-muted mb-5">Administración Integral de Arriendos, Mantenimiento y Recursos Humanos</p>
+        </div>
+    </div>
+
+    <div class="row g-4">
+        <!-- Arriendos -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm border-0 hover-card">
+                <div class="card-body text-center">
+                    <h2 class="mb-3">📋</h2>
+                    <h5 class="card-title">Arriendos</h5>
+                    <p class="card-text text-muted">Gestiona contratos y registros de arriendos</p>
+                    <a href="/arriendos" class="btn btn-primary btn-sm w-100">Acceder</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Clientes -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm border-0 hover-card">
+                <div class="card-body text-center">
+                    <h2 class="mb-3">👥</h2>
+                    <h5 class="card-title">Clientes</h5>
+                    <p class="card-text text-muted">Administra información de clientes</p>
+                    <a href="/clientes" class="btn btn-primary btn-sm w-100">Acceder</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Vehículos -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm border-0 hover-card">
+                <div class="card-body text-center">
+                    <h2 class="mb-3">🚗</h2>
+                    <h5 class="card-title">Vehículos</h5>
+                    <p class="card-text text-muted">Registro y control de vehículos</p>
+                    <a href="/vehiculos" class="btn btn-primary btn-sm w-100">Acceder</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mantenimiento -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm border-0 hover-card">
+                <div class="card-body text-center">
+                    <h2 class="mb-3">🔧</h2>
+                    <h5 class="card-title">Mantenimiento</h5>
+                    <p class="card-text text-muted">Programa y gestiona mantenimientos</p>
+                    <a href="/mantenimiento" class="btn btn-primary btn-sm w-100">Acceder</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- RRHH -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm border-0 hover-card">
+                <div class="card-body text-center">
+                    <h2 class="mb-3">👔</h2>
+                    <h5 class="card-title">Recursos Humanos</h5>
+                    <p class="card-text text-muted">Gestión de personal y nómina</p>
+                    <a href="/rrhh" class="btn btn-primary btn-sm w-100">Acceder</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Todo -->
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm border-0 hover-card">
+                <div class="card-body text-center">
+                    <h2 class="mb-3">✅</h2>
+                    <h5 class="card-title">Tareas</h5>
+                    <p class="card-text text-muted">Gestión de tareas y pendientes</p>
+                    <a href="/tareas" class="btn btn-primary btn-sm w-100">Acceder</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .hover-card {
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+    
+    .hover-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+    }
+
+    .display-4 {
+        font-weight: 700;
+        color: #2c3e50;
+    }
+</style>

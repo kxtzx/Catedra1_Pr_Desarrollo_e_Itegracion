@@ -1,0 +1,56 @@
+@model SistemaArriendos.Models.Arriendo
+
+@{
+    ViewData["Title"] = "Eliminar Arriendo";
+}
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card border-danger shadow-lg">
+                <div class="card-header bg-danger text-white">
+                    <h4 class="mb-0"><i class="bi bi-exclamation-triangle"></i> Confirmar Eliminación</h4>
+                </div>
+                <div class="card-body">
+                    <p class="text-muted">¿Está seguro que desea eliminar este arriendo?</p>
+                    <p class="text-danger fw-bold">Esta acción no se puede deshacer.</p>
+
+                    <div class="alert alert-warning" role="alert">
+                        <strong>Detalles del arriendo a eliminar:</strong>
+                        <dl class="row mt-3">
+                            <dt class="col-md-3">Cliente:</dt>
+                            <dd class="col-md-9"><strong>@Model.Cliente?.Nombre</strong></dd>
+
+                            <dt class="col-md-3">Vehículo:</dt>
+                            <dd class="col-md-9"><span class="badge bg-secondary">@Model.Vehiculo?.Patente</span></dd>
+
+                            <dt class="col-md-3">Inicio:</dt>
+                            <dd class="col-md-9">@Model.FechaInicio.ToString("dd/MM/yyyy")</dd>
+
+                            <dt class="col-md-3">Fin:</dt>
+                            <dd class="col-md-9">@Model.FechaFin.ToString("dd/MM/yyyy")</dd>
+
+                            <dt class="col-md-3">Precio Diario:</dt>
+                            <dd class="col-md-9">$ @Model.PrecioDiario.ToString("N2")</dd>
+
+                            <dt class="col-md-3">Total:</dt>
+                            <dd class="col-md-9"><strong class="text-success">$ @Model.PrecioTotal.ToString("N2")</strong></dd>
+                        </dl>
+                    </div>
+
+                    <form asp-action="Delete" method="post" class="mt-4">
+                        <input type="hidden" asp-for="Id" />
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <a asp-action="Index" class="btn btn-secondary">
+                                <i class="bi bi-arrow-left"></i> Cancelar
+                            </a>
+                            <button type="submit" class="btn btn-danger">
+                                <i class="bi bi-trash"></i> Eliminar Arriendo
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

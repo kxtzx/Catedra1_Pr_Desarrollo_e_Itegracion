@@ -1,0 +1,48 @@
+﻿@{
+    ViewData["Title"] = "Información del Sistema";
+}
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8">
+            <h1>@ViewData["Title"]</h1>
+            
+            <h3 class="mt-4">¿Cómo funciona el Sistema de Recursos Humanos?</h3>
+            
+            <p>El Sistema de Recursos Humanos (RRHH) es una aplicación diseñada para gestionar de manera integral la información relacionada con trabajadores, sus sueldos y remuneraciones. Este sistema simplifica los procesos administrativos permitiendo un control eficiente del personal y sus compensaciones.</p>
+            
+            <h4 class="mt-4">Características principales:</h4>
+            
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">1. Gestión de Trabajadores</h5>
+                    <p class="card-text">Permite registrar y administrar la información de todos los trabajadores o mecánicos de la empresa. Cada empleado cuenta con un sueldo base establecido y un valor por hora trabajada. En esta sección puedes crear nuevos trabajadores, editar sus datos, consultar detalles o eliminar registros.</p>
+                </div>
+            </div>
+            
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">2. Cálculo de Sueldos</h5>
+                    <p class="card-text">El sistema calcula automáticamente los sueldos mensuales basándose en horas trabajadas. Para ello, importa un archivo con las horas registradas y aplica la fórmula: <strong>Sueldo Mensual = Sueldo Base + (Horas Trabajadas × Valor por Hora)</strong>. Esto garantiza cálculos precisos y consistentes.</p>
+                </div>
+            </div>
+            
+            <h4 class="mt-4">Funcionamiento general:</h4>
+            
+            <ol>
+                <li><strong>Registrar trabajadores:</strong> Accede a la sección "Trabajadores/Mecánicos" y crea los registros necesarios con información básica como nombre, sueldo base y valor por hora.</li>
+                <li><strong>Registrar horas trabajadas:</strong> El sistema recibe un archivo JSON con las horas trabajadas por cada empleado durante el mes.</li>
+                <li><strong>Calcular remuneraciones:</strong> En "Cálculo de Sueldos" importa el archivo de horas y el sistema genera automáticamente los sueldos mensuales.</li>
+                <li><strong>Consultar resultados:</strong> Visualiza y verifica los cálculos realizados en cada período.</li>
+            </ol>
+            
+            <h4 class="mt-4">Notas importantes:</h4>
+            <ul>
+                <li>Este sistema cuenta con su propia base de datos independiente.</li>
+                <li>La comunicación con otros sistemas se realiza exclusivamente a través de archivos JSON.</li>
+                <li>Todos los datos se almacenan de forma segura en la base de datos local.</li>
+                <li>El sistema permite agregar, modificar o eliminar información de trabajadores según sea necesario.</li>
+            </ul>
+        </div>
+    </div>
+</div>

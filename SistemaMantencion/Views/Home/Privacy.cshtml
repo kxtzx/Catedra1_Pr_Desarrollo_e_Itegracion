@@ -1,0 +1,60 @@
+﻿@{
+    ViewData["Title"] = "Información del Sistema";
+}
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-12">
+            <h1 class="mb-4">@ViewData["Title"]</h1>
+            
+            <section class="mb-5">
+                <h3 class="mb-3">Descripción General</h3>
+                <p>El Sistema de Mantenimiento es una plataforma integral diseñada para gestionar y llevar registro de todos los vehículos de la flota, así como de las mantenciones y servicios realizados a cada uno de ellos. Este sistema permite mantener un control centralizado y organizado de la información relacionada con la vida útil de los vehículos.</p>
+            </section>
+
+            <section class="mb-5">
+                <h3 class="mb-3">Funcionalidades Principales</h3>
+                
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+                        <h5 class="mb-3">Gestión de Vehículos</h5>
+                        <p>En esta sección puedes registrar y administrar toda la información de los vehículos de la flota. Para cada vehículo se puede guardar:</p>
+                        <ul>
+                            <li>Patente o placa del vehículo</li>
+                            <li>Marca y modelo</li>
+                            <li>Tipo de vehículo</li>
+                            <li>Kilometraje actual</li>
+                            <li>Estado del vehículo</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6 mb-4">
+                        <h5 class="mb-3">Registro de Mantenciones</h5>
+                        <p>Aquí puedes registrar todas las mantenciones y servicios realizados a los vehículos. Para cada mantención se guarda:</p>
+                        <ul>
+                            <li>Fecha de ejecución</li>
+                            <li>Mecánico o responsable</li>
+                            <li>Horas de trabajo invertidas</li>
+                            <li>Vehículo intervenido</li>
+                            <li>Descripción del servicio</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section class="mb-5">
+                <h3 class="mb-3">Cómo Usar el Sistema</h3>
+                <ol>
+                    <li><strong>Registra los Vehículos:</strong> Comienza por crear registros de todos los vehículos de tu flota con la información correspondiente.</li>
+                    <li><strong>Documenta las Mantenciones:</strong> Cada vez que realices mantenimiento a un vehículo, registra los detalles en la sección de mantenciones.</li>
+                    <li><strong>Mantén Actualizado:</strong> Actualiza regularmente los datos de kilometraje y estado de los vehículos.</li>
+                    <li><strong>Consulta el Historial:</strong> Puedes revisar en cualquier momento el historial completo de mantenciones de cada vehículo.</li>
+                </ol>
+            </section>
+
+            <section>
+                <h3 class="mb-3">Integración con Arriendos</h3>
+                <p>Este sistema comparte la misma base de datos con el módulo de Arriendos, lo que permite tener una visión integral del negocio. El sistema genera automáticamente archivos de registro de horas que pueden ser utilizados por el departamento de Recursos Humanos para procesamiento de nómina y control de jornada laboral.</p>
+            </section>
+        </div>
+    </div>
+</div>

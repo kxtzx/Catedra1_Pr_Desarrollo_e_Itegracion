@@ -1,0 +1,69 @@
+@model SistemaArriendos.Models.Arriendo
+
+@{
+    ViewData["Title"] = "Detalles del Arriendo";
+}
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-10 mx-auto">
+            <div class="card shadow-lg">
+                <div class="card-header bg-info text-white">
+                    <h4 class="mb-0"><i class="bi bi-file-earmark-check"></i> Detalles del Arriendo</h4>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-4">
+                        <div class="col-md-6">
+                            <div class="card bg-light">
+                                <div class="card-body">
+                                    <h6 class="card-title"><i class="bi bi-person"></i> Cliente</h6>
+                                    <p class="card-text"><strong>@Model.Cliente?.Nombre</strong></p>
+                                    <small class="text-muted">RUT: @Model.Cliente?.Rut</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card bg-light">
+                                <div class="card-body">
+                                    <h6 class="card-title"><i class="bi bi-car-front"></i> Vehículo</h6>
+                                    <p class="card-text"><strong>@Model.Vehiculo?.Patente</strong></p>
+                                    <small class="text-muted">@Model.Vehiculo?.Marca @Model.Vehiculo?.Modelo</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr />
+
+                    <dl class="row">
+                        <dt class="col-md-3"><i class="bi bi-calendar-event"></i> Fecha Inicio:</dt>
+                        <dd class="col-md-9">@Model.FechaInicio.ToString("dd/MM/yyyy")</dd>
+
+                        <dt class="col-md-3"><i class="bi bi-calendar-event"></i> Fecha Fin:</dt>
+                        <dd class="col-md-9">@Model.FechaFin.ToString("dd/MM/yyyy")</dd>
+
+                        <dt class="col-md-3"><i class="bi bi-cash-coin"></i> Precio Diario:</dt>
+                        <dd class="col-md-9">$ @Model.PrecioDiario.ToString("N2")</dd>
+
+                        <dt class="col-md-3"><i class="bi bi-receipt"></i> Precio Total:</dt>
+                        <dd class="col-md-9"><strong class="text-success">$ @Model.PrecioTotal.ToString("N2")</strong></dd>
+                    </dl>
+
+                    <hr />
+
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <a asp-action="Index" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left"></i> Volver
+                        </a>
+                        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">
+                            <i class="bi bi-pencil"></i> Editar
+                        </a>
+                        <a asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">
+                            <i class="bi bi-trash"></i> Eliminar
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,72 @@
+@model IEnumerable<SistemaArriendos.Models.Arriendo>
+
+@{
+    ViewData["Title"] = "Arriendos";
+}
+
+<div class="container-fluid mt-5">
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <h1 class="display-4">🚗 Gestión de Arriendos</h1>
+            <p class="text-muted">Administra todos los arriendos de vehículos</p>
+        </div>
+        <div class="col-md-4 text-end">
+            <a asp-action="Create" class="btn btn-success btn-lg">
+                <i class="bi bi-plus-circle"></i> Nuevo Arriendo
+            </a>
+        </div>
+    </div>
+
+    @if (Model.Any())
+    {
+        <div class="card shadow-sm">
+            <div class="table-responsive">
+                <table class="table table-hover table-striped mb-0">
+                    <thead class="table-dark">
+                        <tr>
+                            <th scope="col">Cliente</th>
+                            <th scope="col">Vehículo</th>
+                            <th scope="col">Fecha Inicio</th>
+                            <th scope="col">Fecha Fin</th>
+                            <th scope="col">Precio Diario</th>
+                            <th scope="col">Total</th>
+                            <th scope="col" class="text-center">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td><strong>@item.Cliente?.Nombre</strong></td>
+                                <td><span class="badge bg-secondary">@item.Vehiculo?.Patente</span></td>
+                                <td>@item.FechaInicio.ToString("dd/MM/yyyy")</td>
+                                <td>@item.FechaFin.ToString("dd/MM/yyyy")</td>
+                                <td>$ @item.PrecioDiario.ToString("N2")</td>
+                                <td><strong class="text-success">$ @item.PrecioTotal.ToString("N2")</strong></td>
+                                <td class="text-center">
+                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info" title="Ver detalles">
+                                        <i class="bi bi-eye"></i>
+                                    </a>
+                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning" title="Editar">
+                                        <i class="bi bi-pencil"></i>
+                                    </a>
+                                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger" title="Eliminar">
+                                        <i class="bi bi-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info text-center py-5" role="alert">
+            <i class="bi bi-inbox" style="font-size: 3rem; display: block; margin-bottom: 1rem;"></i>
+            <h5>No hay arriendos registrados</h5>
+            <p class="mb-0">Haz clic en "Nuevo Arriendo" para crear el primer registro</p>
+        </div>
+    }
+</div>
