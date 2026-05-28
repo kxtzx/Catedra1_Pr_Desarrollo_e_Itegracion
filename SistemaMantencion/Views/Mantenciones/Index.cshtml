@@ -1,57 +1,79 @@
 @model IEnumerable<SistemaMantencion.Models.Mantencione>
+@using System.Globalization
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Mantenciones";
+    var cultura = new CultureInfo("es-CL");
 }
 
-<h1>Index</h1>
+<div class="container-fluid mt-5">
+    <div class="row align-items-center mb-4 g-3">
+        <div class="col-lg-8 col-md-7">
+            <h1 class="display-4 fw-bold mb-2">Gestión de Mantenciones</h1>
+            <p class="text-muted fs-5 mb-0">Registro de mantenciones realizadas a los vehículos</p>
+        </div>
+        <div class="col-lg-4 col-md-5 text-md-end">
+            <div class="d-inline-flex flex-wrap gap-2 justify-content-md-end">
+                <a asp-action="Create" class="btn btn-primary btn-lg shadow-sm px-4">
+                    <i class="bi bi-plus-circle me-2"></i>Nueva Mantención
+                </a>
+                <a asp-action="ExportarHorasJson" class="btn btn-success btn-lg shadow-sm px-4">
+                    <i class="bi bi-download me-2"></i>Descargar JSON para RRHH
+                </a>
+            </div>
+        </div>
+    </div>
 
-<p>
-    <a asp-action="Create">Create New</a>
-    <a asp-action="Create" class="btn btn-primary">Registrar Nueva Mantención</a>
-    <a asp-action="ExportarHorasJson" class="btn btn-success">
-        <i class="bi bi-download"></i> Descargar JSON de Horas para RRHH
-    </a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.FechaMantencion)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RutMecanico)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.HorasTrabajadas)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Vehiculo)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.FechaMantencion)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RutMecanico)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.HorasTrabajadas)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Vehiculo.Id)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+    @if (Model != null && Model.Any())
+    {
+        <div class="card shadow-sm border-0">
+            <div class="table-responsive">
+                <table class="table table-hover table-striped align-middle mb-0">
+                    <thead class="table-dark">
+                        <tr>
+                            <th scope="col">Fecha</th>
+                            <th scope="col">RUT Mecánico</th>
+                            <th scope="col">Horas Trabajadas</th>
+                            <th scope="col">Vehículo</th>
+                            <th scope="col" class="text-center">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@item.FechaMantencion.ToString("dd-MM-yyyy")</td>
+                                <td><span class="badge bg-dark px-3 py-2">@item.RutMecanico</span></td>
+                                <td class="fw-semibold">@item.HorasTrabajadas.ToString("0.0", cultura) h</td>
+                                <td>
+                                    <span class="badge bg-secondary px-3 py-2">Vehículo #@item.VehiculoId</span>
+                                </td>
+                                <td class="text-center">
+                                    <div class="btn-group" role="group" aria-label="Acciones de mantención">
+                                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info text-white" title="Ver detalles">
+                                            <i class="bi bi-eye-fill"></i>
+                                        </a>
+                                        <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-warning text-dark" title="Editar">
+                                            <i class="bi bi-pencil-fill"></i>
+                                        </a>
+                                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger" title="Eliminar">
+                                            <i class="bi bi-trash-fill"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info text-center py-5 border-0 shadow-sm" role="alert">
+            <i class="bi bi-tools" style="font-size: 3rem; display: block; margin-bottom: 1rem;"></i>
+            <h5 class="fw-bold">No hay mantenciones registradas</h5>
+            <p class="mb-0">Haz clic en "Nueva Mantención" para crear el primer registro</p>
+        </div>
+    }
+</div>

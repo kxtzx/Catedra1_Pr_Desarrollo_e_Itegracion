@@ -55,17 +55,24 @@ namespace SistemaMantencion.Controllers
         }
 
         public IActionResult ExportarHorasJson()
-{
+        {
             var horas = _context.Mantenciones
                 .GroupBy(m => m.RutMecanico)
-                .Select(g => new {
+                .Select(g => new
+                {
                     rut = g.Key,
-                    horas_trabajadas = g.Sum(m => m.HorasTrabajadas)
-                }).ToList();
+                    horas = g.Sum(m => m.HorasTrabajadas)
+                })
+                .OrderBy(x => x.rut)
+                .ToList();
 
-            var json = System.Text.Json.JsonSerializer.Serialize(horas);
+            var json = System.Text.Json.JsonSerializer.Serialize(horas, new JsonSerializerOptions
+            {
+                WriteIndented = true
+            });
+
             var bytes = System.Text.Encoding.UTF8.GetBytes(json);
-            return File(bytes, "application/json", "horas_trabajadas.json");
+            return File(bytes, "application/json", "horas_ejemplo.json");
         }
 
         // POST: Mantenciones/Create
